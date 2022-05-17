@@ -15,7 +15,6 @@ connection.connect(function(err) {
   if (err) {
 	  res.send("db connection failed")
     console.error('Database connection failed: ' + err.stack);
-    connection.end();
     return;
   }
 	res.send("db connection successful");
