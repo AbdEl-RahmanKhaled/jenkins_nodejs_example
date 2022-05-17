@@ -2,7 +2,7 @@ pipeline {
     agent { label 'private' }
 
     environment {
-        OLD_TAG="1.0"
+        OLD_TAG="1.1"
         NEW_TAG="1.1"
         IMG_NAME="abdelrahmankha/node-app"
         APP_NAME = "node-app"
