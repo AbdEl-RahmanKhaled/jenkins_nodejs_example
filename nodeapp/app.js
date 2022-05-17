@@ -15,13 +15,13 @@ connection.connect(function(err) {
   if (err) {
 	  res.send("db connection failed")
     console.error('Database connection failed: ' + err.stack);
+    connection.end();
     return;
   }
 	res.send("db connection successful");
   console.log('Connected to database.');
 
 connection.end();
-connection.destroy();
 });})
 
 const redis = require('redis');
