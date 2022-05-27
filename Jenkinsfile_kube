@@ -44,11 +44,13 @@ pipeline {
                     echo 'deploying image on kubernetes cluster....'
                     sh 'chmod +x kubernetes/configmap_secret/app-secret.sh'
                     sh 'chmod +x kubernetes/configmap_secret/app-configmap.sh'
-                    withCredentials([usernamePassword(credentialsId: 'rds_cred', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
-                        sh "./kubernetes/configmap_secret/app-secret.sh"
-                        sh "./kubernetes/configmap_secret/app-configmap.sh"
-                        sh "kubectl apply -f ./kubernetes/deployments"
-                        sh "kubectl apply -f ./kubernetes/services"
+                    withAWS(credentials: 'jenkins_aws') {
+                        withCredentials([usernamePassword(credentialsId: 'rds_cred', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
+                            sh "./kubernetes/configmap_secret/app-secret.sh"
+                            sh "./kubernetes/configmap_secret/app-configmap.sh"
+                            sh "kubectl apply -f ./kubernetes/deployments"
+                            sh "kubectl apply -f ./kubernetes/services"
+                        }
                     }
                }
             }
