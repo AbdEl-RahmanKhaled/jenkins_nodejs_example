@@ -45,6 +45,7 @@ pipeline {
                     sh 'chmod +x kubernetes/configmap_secret/app-secret.sh'
                     sh 'chmod +x kubernetes/configmap_secret/app-configmap.sh'
                     withAWS(credentials: 'jenkins_aws') {
+                        sh 'kubectl get nodes'
                         withCredentials([usernamePassword(credentialsId: 'rds_cred', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
                             sh "./kubernetes/configmap_secret/app-secret.sh"
                             sh "./kubernetes/configmap_secret/app-configmap.sh"
