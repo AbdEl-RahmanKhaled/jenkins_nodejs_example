@@ -1,0 +1,62 @@
+pipeline {
+    agent { label 'private' }
+
+    environment {
+        OLD_TAG="1.1"
+        NEW_TAG="1.1"
+        IMG_NAME="abdelrahmankha/node-app"
+        APP_NAME = "node-app"
+        CLUSTER_NAME = "prod_eks_cluster"
+        CLUSTER_REGION = "eu-west-2"
+    }
+
+    stages {
+        stage('build') {
+           steps {
+                echo 'Building Docker image...'
+                catchError {
+                    sh "docker rmi -f ${IMG_NAME}:${OLD_TAG}"
+                }                   
+                sh "docker build -t ${IMG_NAME}:${NEW_TAG} ."
+           }
+       }
+       stage('Push to Dockerhub'){
+           steps {
+               echo 'pushing to dockerhub repo...'
+                withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
+                    sh 'echo $PASS | docker login -u $USERNAME --password-stdin'
+                    sh "docker push ${IMG_NAME}:${NEW_TAG}"
+                }
+           }
+       }
+       stage('configure kubectl'){
+           steps {
+               echo 'configuring kubectl...'
+                withAWS(credentials: 'jenkins_aws') {
+                    sh "aws eks update-kubeconfig --region ${CLUSTER_REGION} --name ${CLUSTER_NAME}"
+                }
+           }
+       }
+
+       stage('deploy') {
+           steps {
+               script {
+                    echo 'deploying image on kubernetes cluster....'
+                    withCredentials([usernamePassword(credentialsId: 'rds_cred', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
+                        sh "./kubernetes/configmap_secret/app-secret.sh"
+                        sh "./kubernetes/configmap_secret/app-configmap.sh"
+                        sh "kubectl apply -f ./kubernetes/deployments"
+                        sh "kubectl apply -f ./kubernetes/services"
+                    }
+               }
+            }
+
+            post {
+                success {
+                    slackSend(channel: "test", message: "The App has deployed successfully", sendAsText: false)
+                }
+            }
+        }
+       
+    }
+}
