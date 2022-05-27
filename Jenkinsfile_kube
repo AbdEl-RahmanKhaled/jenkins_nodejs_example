@@ -42,6 +42,8 @@ pipeline {
            steps {
                script {
                     echo 'deploying image on kubernetes cluster....'
+                    sh 'chmod +x kubernetes/configmap_secret/app-secret.sh'
+                    sh 'chmod +x kubernetes/configmap_secret/app-configmap.sh'
                     withCredentials([usernamePassword(credentialsId: 'rds_cred', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
                         sh "./kubernetes/configmap_secret/app-secret.sh"
                         sh "./kubernetes/configmap_secret/app-configmap.sh"
