@@ -15,6 +15,8 @@ pipeline {
                 catchError {
                     sh "docker stop ${APP_NAME}"
                     sh "docker rm -f ${APP_NAME}"
+                }  
+                catchError {
                     sh "docker rmi -f ${IMG_NAME}:${OLD_TAG}"
                 }                   
                 sh "docker build -t ${IMG_NAME}:${NEW_TAG} ."
