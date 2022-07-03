@@ -4,9 +4,9 @@ pipeline {
     environment {
         OLD_TAG="1.0"
         NEW_TAG="1.0"
-        IMG_NAME="nexus-repo-svc:8082/node-app-k8s"
+        IMG_NAME="node-app-k8s"
         APP_NAME = "node-app"
-        NEXUS_REPO = "nexus-repo-svc:8082"
+        NEXUS_REPO = "nexus-repo-svc"
     }
 
     stages {
@@ -18,9 +18,9 @@ pipeline {
                     sh "docker rm -f ${APP_NAME}"
                 }  
                 catchError {
-                    sh "docker rmi -f ${IMG_NAME}:${OLD_TAG}"
+                    sh "docker rmi -f ${NEXUS_REPO}/${IMG_NAME}:${OLD_TAG}"
                 }                   
-                sh "docker build -t ${IMG_NAME}:${NEW_TAG} ."
+                sh "docker build -t ${NEXUS_REPO}/${IMG_NAME}:${NEW_TAG} ."
            }
        }
        stage('Push to Nexus'){
@@ -28,7 +28,7 @@ pipeline {
                echo 'pushing to Nexus repo...'
                 withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
                     sh "echo $PASS | docker login ${NEXUS_REPO} -u $USERNAME --password-stdin"
-                    sh "docker push ${IMG_NAME}:${NEW_TAG}"
+                    sh "docker push ${NEXUS_REPO}/${IMG_NAME}:${NEW_TAG}"
                 }
            }
        }
