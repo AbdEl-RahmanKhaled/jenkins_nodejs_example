@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'private' }
+    agent any
 
     environment {
         OLD_TAG="1.0"
