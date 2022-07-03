@@ -4,9 +4,9 @@ pipeline {
     environment {
         OLD_TAG="1.0"
         NEW_TAG="1.0"
-        IMG_NAME="nexus-repo-svc.tools/node-app-k8s"
+        IMG_NAME="nexus-repo-svc/node-app-k8s"
         APP_NAME = "node-app"
-        NEXUS_REPO = "nexus-repo-svc.tools"
+        NEXUS_REPO = "nexus-repo-svc"
     }
 
     stages {
