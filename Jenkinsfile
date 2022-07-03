@@ -14,10 +14,6 @@ pipeline {
            steps {
                 echo 'Building Docker image...'
                 catchError {
-                    sh "docker stop ${APP_NAME}"
-                    sh "docker rm -f ${APP_NAME}"
-                }  
-                catchError {
                     sh "docker rmi -f ${NEXUS_REPO}/${IMG_NAME}:${OLD_TAG}"
                 }                   
                 sh "docker build -t ${NEXUS_REPO}/${IMG_NAME}:${NEW_TAG} ."
@@ -27,7 +23,7 @@ pipeline {
            steps {
                echo 'pushing to Nexus repo...'
                 withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
-                    sh "echo $PASS | docker login http://${NEXUS_REPO} -u $USERNAME --password-stdin"
+                    sh "echo $PASS | docker login ${NEXUS_REPO} -u $USERNAME --password-stdin"
                     sh "docker push ${NEXUS_REPO}/${IMG_NAME}:${NEW_TAG}"
                 }
            }
