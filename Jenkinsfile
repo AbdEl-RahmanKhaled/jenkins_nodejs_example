@@ -4,7 +4,7 @@ pipeline {
     environment {
         OLD_TAG="1.0"
         NEW_TAG="1.0"
-        IMG_NAME="abdelrahmankha/node-app-k8s"
+        IMG_NAME="node-app-k8s"
         APP_NAME = "node-app"
         NEXUS_REPO = "nexus-repo-svc"
     }
