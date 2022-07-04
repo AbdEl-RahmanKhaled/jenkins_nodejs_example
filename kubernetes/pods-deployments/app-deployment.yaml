@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: 10.107.185.142:8082/repository/node-app/node-app-k8s
+        image: 10.107.185.142:8082/node-app-k8s
       imagePullSecrets:
-      - name: nexus-docker
+        - name: nexus-docker
         
