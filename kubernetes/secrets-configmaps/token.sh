@@ -1,4 +1,4 @@
-cat << EOF | base64
+TOKEN=`cat << EOF | base64
 {
   "auths": {
     "10.107.185.142:8082": {
@@ -7,7 +7,7 @@ cat << EOF | base64
     }
   }
 }
-EOF
+EOF`
 
 cat << EOF | base64 | xargs -e . ./kubernetes/secrets-configmaps/nexus-sec.sh
 {

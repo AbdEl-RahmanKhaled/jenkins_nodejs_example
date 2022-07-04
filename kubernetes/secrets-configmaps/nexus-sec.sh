@@ -1,4 +1,5 @@
 echo $1
+echo TOKEN
 cat << EOF | kubectl apply -f-
 apiVersion: v1
 data:
