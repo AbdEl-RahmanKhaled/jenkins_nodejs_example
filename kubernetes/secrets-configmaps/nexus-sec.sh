@@ -1,11 +1,11 @@
 echo $TOKEN
 cat << EOF | kubectl apply -f-
 apiVersion: v1
-data:
-  .dockercfg: $TOKEN
 kind: Secret
 metadata:
   name: nexus-docker
   namespace: dev
+data:
+  .dockercfg: $TOKEN
 type: kubernetes.io/dockercfg
 EOF
