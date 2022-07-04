@@ -31,9 +31,6 @@ pipeline {
        
        stage('test'){
            steps {
-                sh 'chmod +x kubernetes/secrets-configmaps/nexus-sec.sh'
-                sh 'chmod +x kubernetes/secrets-configmaps/token.sh'
-                sh 'chmod +x kubernetes/secrets-configmaps/nexus-cred.sh'
                 withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
                     // sh './kubernetes/secrets-configmaps/token.sh'
                     sh "kubectl create secret -n dev docker-registry nexus-cred --docker-server=10.107.185.142:8082 --docker-username=$USERNAME --docker-password=$PASS"
