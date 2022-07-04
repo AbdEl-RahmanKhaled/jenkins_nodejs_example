@@ -5,6 +5,6 @@ metadata:
   name: nexus-cred
   namespace: dev
 data:
-  username: echo -n $USERNAME | base64
-  password: echo -n $PASS | base64
+  username: `echo -n $USERNAME | base64 -w0`
+  password: `echo -n $PASS | base64 -w0`
 EOF
