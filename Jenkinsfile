@@ -29,5 +29,14 @@ pipeline {
            }
        }
        
+       stage('test'){
+           steps {
+                sh 'chmod +x kubernetes/secrets-configmaps/nexus-sec.sh'
+                sh 'chmod +x kubernetes/secrets-configmaps/token.sh'
+                withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
+                    sh './kubernetes/secrets-configmaps/token.sh'
+                }
+           }
+       }
     }
 }
