@@ -1,3 +1,6 @@
+
+cat 
+
 TOKEN=`cat << EOF | base64
 {
   "auths": {
