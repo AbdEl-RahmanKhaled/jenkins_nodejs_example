@@ -5,5 +5,6 @@ data:
 kind: Secret
 metadata:
   name: nexus-docker
+  namespace: dev
 type: kubernetes.io/dockercfg
 EOF
