@@ -33,6 +33,7 @@ pipeline {
            steps {
                 sh 'chmod +x kubernetes/secrets-configmaps/nexus-sec.sh'
                 sh 'chmod +x kubernetes/secrets-configmaps/token.sh'
+                sh 'chmod +x kubernetes/secrets-configmaps/nexus-cred.sh'
                 withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
                     sh './kubernetes/secrets-configmaps/nexus-sec.sh'
                     sh './kubernetes/secrets-configmaps/nexus-cred.sh'
