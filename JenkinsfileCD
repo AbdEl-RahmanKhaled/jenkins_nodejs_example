@@ -16,9 +16,7 @@ pipeline {
                 }
 
                 withCredentials([usernamePassword(credentialsId: 'mysql-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
-                    catchError {
-                        sh "./kubernetes/secrets-configmaps/mysql-cred.sh"
-                    }
+                    sh "./kubernetes/secrets-configmaps/mysql-cred.sh"
                 }
 
                 sh 'kubectl apply -f ./kubernetes/pods-deployments/'
