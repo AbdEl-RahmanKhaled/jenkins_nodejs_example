@@ -10,7 +10,7 @@ spec:
   - name: mysql
     image: mysql
     envFrom:
-      - secretKeyRef:
+    - secretKeyRef:
         name: mysql-cred
 
     ports:
