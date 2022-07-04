@@ -22,7 +22,7 @@ pipeline {
                 }
 
                 sh 'kubectl apply -f ./kubernetes/pods-deployments/'
-                sh 'kubectl apply -f ./svcs/'
+                sh 'kubectl apply -f ./kubernetes/svcs/'
            }
        }
     }
