@@ -6,7 +6,7 @@ pipeline {
         NEW_TAG="1.0"
         IMG_NAME="node-app-k8s"
         APP_NAME = "node-app"
-        NEXUS_REPO = "10.107.185.142:8082/repository/node-app"
+        NEXUS_REPO = "10.107.185.142:8082"
     }
 
     stages {
