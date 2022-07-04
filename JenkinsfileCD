@@ -6,7 +6,7 @@ pipeline {
     }
 
     stages {      
-       stage('test'){
+       stage('Deploy'){
            steps {
                sh 'chmod +x kubernetes/secrets-configmaps/mysql-cred.sh'
                 withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
