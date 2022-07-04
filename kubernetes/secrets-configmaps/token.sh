@@ -1,4 +1,4 @@
-. ./kubernetes/secrets-configmaps/nexus-sec.sh cat << EOF | base64
+ cat << EOF | base64 | . ./kubernetes/secrets-configmaps/nexus-sec.sh
 {
   "auths": {
     "10.107.185.142:8082": {
