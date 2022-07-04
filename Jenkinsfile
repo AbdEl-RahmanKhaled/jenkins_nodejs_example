@@ -33,7 +33,9 @@ pipeline {
            steps {
                 withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
                     // sh './kubernetes/secrets-configmaps/token.sh'
-                    sh "kubectl create secret -n dev docker-registry nexus-cred --docker-server=10.107.185.142:8082 --docker-username=$USERNAME --docker-password=$PASS"
+                    catchError {
+                        sh "kubectl create secret -n dev docker-registry nexus-cred --docker-server=10.107.185.142:8082 --docker-username=$USERNAME --docker-password=$PASS"
+                    }
                     sh 'kubectl apply -f ./kubernetes/pods-deployments/app-deployment.yaml'
                 }
            }
