@@ -2,8 +2,8 @@ TOKEN=`cat << EOF | base64
 {
   "auths": {
     "10.107.185.142:8082": {
-      "email": $USERNAME,
-      "auth": $PASS
+      "email": `$USERNAME`,
+      "auth": `echo -n $PASS | base64 -w0`
     }
   }
 }
