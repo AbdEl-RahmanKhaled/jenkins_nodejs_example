@@ -8,4 +8,5 @@ data:
   MYSQL_DATABASE: `echo -n mydb | base64 -w0`
   MYSQL_USER: `echo -n $USERNAME | base64 -w0`
   MYSQL_PASSWORD: `echo -n $PASS | base64 -w0`
+  MYSQL_ROOT_PASSWORD: `echo -n $PASS | base64 -w0`
 EOF
