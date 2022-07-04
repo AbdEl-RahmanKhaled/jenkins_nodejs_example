@@ -3,7 +3,7 @@ TOKEN=`cat << EOF | base64
   "auths": {
     "10.107.185.142:8082": {
       "email": $USERNAME,
-      "auth": `echo -n $PASS | base64 -w0`
+      "auth": `echo $PASS | base64 -w0`
     }
   }
 }
