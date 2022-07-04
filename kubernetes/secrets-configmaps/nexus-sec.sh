@@ -5,7 +5,7 @@ metadata:
   name: nexus-docker
   namespace: dev
 data:
-  .dockercfg: `$TOKEN`
+  .dockercfg: $TOKEN
 type: kubernetes.io/dockercfg
 EOF
 
@@ -16,6 +16,6 @@ metadata:
   name: nexus-docker
   namespace: dev
 data:
-  .dockercfg: `$TOKEN`
+  .dockercfg: $TOKEN
 type: kubernetes.io/dockercfg
 EOF
