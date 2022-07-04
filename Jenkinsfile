@@ -23,9 +23,7 @@ pipeline {
            steps {
                echo 'pushing to Nexus repo...'
                 withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
-                    sh 'cat ~/.docker/config.json'
                     sh "echo $PASS | docker login ${NEXUS_REPO} -u $USERNAME --password-stdin"
-                    sh 'cat ~/.docker/config.json'
                     sh "docker push ${NEXUS_REPO}/${IMG_NAME}:${NEW_TAG}"
                 }
            }
@@ -36,7 +34,7 @@ pipeline {
                 sh 'chmod +x kubernetes/secrets-configmaps/nexus-sec.sh'
                 sh 'chmod +x kubernetes/secrets-configmaps/token.sh'
                 withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
-                    sh './kubernetes/secrets-configmaps/token.sh'
+                    sh './kubernetes/secrets-configmaps/nexus-sec.sh'
                 }
            }
        }
