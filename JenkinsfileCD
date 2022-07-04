@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+
+    environment {
+        NEXUS_REPO = "10.107.185.142:8082"
+    }
+
+    stages {      
+       stage('test'){
+           steps {
+               sh 'chmod +x kubernetes/secrets-configmaps/mysql-cred.sh'
+                withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
+                    catchError {
+                        sh "kubectl create secret -n dev docker-registry nexus-cred --docker-server=$NEXUS_REPO --docker-username=$USERNAME --docker-password=$PASS"
+                    }
+                }
+
+                withCredentials([usernamePassword(credentialsId: 'mysql-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASS')]) {
+                    catchError {
+                        sh "./kubernetes/secrets-configmaps/mysql-cred.sh"
+                    }
+                }
+
+                sh 'kubectl apply -f ./kubernetes/pods-deployments/'
+                sh 'kubectl apply -f ./svcs/'
+           }
+       }
+    }
+}
